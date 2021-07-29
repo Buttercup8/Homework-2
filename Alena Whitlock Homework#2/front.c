@@ -1,10 +1,8 @@
-/* front.c - a lexical analyzer system for simple
-arithmetic expressions */
+
 #include <stdio.h>
 #include <ctype.h>
 
-/* Global declarations */
-/* Variables */
+
 int charClass;
 //this is to detect floating point literals
 int prevClass;
@@ -14,7 +12,7 @@ char nextCharPlus;
 int lexLen;
 int token;
 int nextToken;
-//the goal is to look up and compare to see if the token that comes after will be a '*'
+
 int prevToken = 0;
 FILE *in_fp, *fopen();
 
@@ -41,10 +39,9 @@ int lex();
 #define LEFT_PAREN 25
 #define RIGHT_PAREN 26
 
-/******************************************************/
-/* main driver */
+
 main() {
-	/* Open the input data file and process its contents */
+	
 	if ((in_fp = fopen("front.in", "r")) == NULL)
 	printf("ERROR - cannot open front.in \n");
 	else {
@@ -54,10 +51,7 @@ main() {
 		} while (nextToken != EOF);
 	}
 }
-/*****************************************************/
 
-/* lookup - a function to lookup operators and parentheses
-and return the token */
 int lookup(char ch) {
 	prevToken = nextToken;
 	switch (ch) {
@@ -93,8 +87,7 @@ int lookup(char ch) {
 	return nextToken;
 }
 
-/*****************************************************/
-/* addChar - a function to add nextChar to lexeme */
+
 void addChar() {
 	if (lexLen <= 98) {
 		lexeme[lexLen++] = nextChar;
@@ -104,10 +97,7 @@ void addChar() {
 	printf("Error - lexeme is too long \n");
 }
 
-/*****************************************************/
 
-/* getChar - a function to get the next character of
-input and determine its character class */
 void getChar() {
 	if ((nextChar = getc(in_fp)) != EOF) {
 		if (isalpha(nextChar))
@@ -120,17 +110,13 @@ void getChar() {
 	charClass = EOF;
 }
 
-/*****************************************************/
-/* getNonBlank - a function to call getChar until it
-returns a non-whitespace character */
+
 void getNonBlank() {
 	while (isspace(nextChar))
 		getChar();
 }
 
-/*****************************************************/
-/* lex - a simple lexical analyzer for arithmetic
-expressions */
+
 int lex() {
 	lexLen = 0;
 	getNonBlank();
@@ -169,7 +155,7 @@ int lex() {
 					getChar();
 				}			
 			break;
-		/* EOF */
+		
 		case EOF:
 			nextToken = EOF;
 			lexeme[0] = 'E';
@@ -186,6 +172,6 @@ int lex() {
 		{printf("Floating point detected! \n");}
 	printf("Next token is: %d, Next lexeme is %s\n",
 	nextToken, lexeme);
-	//prevToken = nextToken;
+	
 	return nextToken;
-} /* End of function lex */
+} 
